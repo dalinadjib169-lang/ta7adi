@@ -1,0 +1,53 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Student or teacher profile data",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "points": { "type": "number" },
+        "level": { "type": "number" },
+        "rank": { "type": "string", "enum": ["worm", "eagle", "tiger", "lion", "dragon"] },
+        "role": { "type": "string", "enum": ["student", "teacher"] },
+        "lastActive": { "type": "number" },
+        "isOnline": { "type": "boolean" }
+      },
+      "required": ["uid", "email", "displayName", "points", "rank", "role"]
+    },
+    "Challenge": {
+      "title": "Challenge",
+      "description": "Real-time PvP challenge between students",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "challengerId": { "type": "string" },
+        "challengerName": { "type": "string" },
+        "challengedId": { "type": "string" },
+        "challengedName": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "declined", "completed", "cancelled", "playing"] },
+        "challengerScore": { "type": "number" },
+        "challengedScore": { "type": "number" },
+        "winnerId": { "type": "string" },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["id", "challengerId", "challengedId", "status", "timestamp"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Private user data"
+    },
+    "profiles/{userId}": {
+      "schema": "UserProfile",
+      "description": "Public profile for leaderboard"
+    },
+    "challenges/{challengeId}": {
+      "schema": "Challenge",
+      "description": "Active and past challenges"
+    }
+  }
+}
